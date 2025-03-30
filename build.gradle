@@ -30,7 +30,7 @@ java {
 }
 
 application {
-    mainClass = 'org.example.App'
+    mainClass = 'com.company.pdfrenderer.App'
 }
 
 tasks.named('test') {

@@ -1,7 +1,6 @@
-package org.example;
+package com.company.pdfrenderer;
 
 import org.junit.jupiter.api.Test;
-import static org.junit.jupiter.api.Assertions.*;
 
 class AppTest {
 

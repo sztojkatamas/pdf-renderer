@@ -1,32 +1,30 @@
-package org.example;
+package com.company.pdfrenderer.flyingsaucer;
 
-import lombok.extern.slf4j.Slf4j;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.xhtmlrenderer.pdf.ITextRenderer;
 
-import java.io.*;
-import java.nio.file.Files;
+import java.io.FileOutputStream;
+import java.io.OutputStream;
 import java.util.Map;
 
-@Slf4j
-public class App {
+public class FlyingSaucerRenderer {
 
     public void generatePdfFromHtml(String htmlTemplate, Map<String, String> data, String outputFilePath) throws Exception {
 
         String processedHtml = replacePlaceholders(htmlTemplate, data);
-        String correctedHtml = processedHtml.replace("&nbsp;", " ");
-
-        // Pre-process the HTML string before Jsoup
-        String preProcessedHtml = correctedHtml;
+        //String correctedHtml = processedHtml.replace("&nbsp;", " ");
+        //String preProcessedHtml = correctedHtml;
 
         try (OutputStream os = new FileOutputStream(outputFilePath)) {
-            Document jsoupDoc = Jsoup.parse(preProcessedHtml);
-            correctImgTags(jsoupDoc);
+            Document jsoupDoc = Jsoup.parse(processedHtml);
+            jsoupDoc.outputSettings().syntax(Document.OutputSettings.Syntax.xml);
+            //correctImgTags(jsoupDoc);
 
             ITextRenderer renderer = new ITextRenderer();
-            renderer.setDocumentFromString(jsoupDoc.outerHtml()); // Use Jsoup output directly
+            //renderer.setDocumentFromString(jsoupDoc.outerHtml()); // Use Jsoup output directly
+            renderer.setDocumentFromString(jsoupDoc.html());
             renderer.layout();
             renderer.createPDF(os);
         }
@@ -49,11 +47,4 @@ public class App {
         return processedHtml;
     }
 
-    public static void main(String[] args) throws Exception {
-        File templatFile = new File(args[0]);
-        String htmlTemplate = Files.readString(templatFile.toPath());
-
-        Map<String, String> data = Map.of("name", "Alice", "image-1", "image-007.jpg");
-        new App().generatePdfFromHtml(htmlTemplate, data, "output.pdf");
-    }
 }
