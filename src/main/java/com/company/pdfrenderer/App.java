@@ -4,7 +4,9 @@ import com.company.pdfrenderer.flyingsaucer.FlyingSaucerRenderer;
 import lombok.extern.slf4j.Slf4j;
 import java.io.*;
 import java.nio.file.Files;
+import java.util.HashMap;
 import java.util.Map;
+import java.util.Properties;
 
 @Slf4j
 public class App {
@@ -27,10 +29,22 @@ public class App {
 
         String htmlTemplate = Files.readString(new File(templateFilename).toPath());
 
-        Map<String, String> data = Map.of("name", "Alice", "image-1", "image-007.jpg");
-
+        Map<String, String> data = readPropertiesFile(dataFilename);
         FlyingSaucerRenderer pdfRenderer = new FlyingSaucerRenderer();
         pdfRenderer.generatePdfFromHtml(htmlTemplate, data, outputFilename);
+    }
 
+    public static Map<String, String> readPropertiesFile(String filePath) throws IOException {
+        Properties properties = new Properties();
+        Map<String, String> propertiesMap = new HashMap<>();
+
+        try (FileInputStream fis = new FileInputStream(filePath)) {
+            properties.load(fis);
+
+            for (String key : properties.stringPropertyNames()) {
+                propertiesMap.put(key, properties.getProperty(key));
+            }
+        }
+        return propertiesMap;
     }
 }

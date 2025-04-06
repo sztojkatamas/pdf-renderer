@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Template for demonstrating a repeat directive</title>
+    <style>
+        table {
+          border-collapse: collapse;
+          width: 100%;
+        }
+
+        th, td {
+          text-align: left;
+          padding: 8px;
+        }
+
+        tr:nth-child(even) {
+          background-color: #D6EEEE;
+        }
+    </style>
+</head>
+<body>
+    <table>
+        <tr>
+            <th>Movie Name</th>
+            <th>Release year</th>
+            <th>User score</th>
+        </tr>
+        <tr>
+            <td>Sleeping with the Enemy</td>
+            <td>1991</td>
+            <td>65%</td>
+        </tr>
+        <tr data-repeat="7">
+            <td>Groundhog Day</td>
+            <td>1993</td>
+            <td>76%</td>
+        </tr>
+        <tr>
+            <td>Flow</td>
+            <td>2024</td>
+            <td>83%</td>
+        </tr>
+        <tr>
+            <td>The Shawshank Redemption</td>
+            <td>1994</td>
+            <td>87%</td>
+        </tr>
+    </table>
+    <hr>
+    <table>
+        <tr data-repeat="3">
+            <td data-repeat="3"><img src="https://jcp.org/images/press/news/Generic_Duke.png" width="80" height="80"></td>
+        </tr>
+    </table>
+
+
+
+</body>
+</html>
